@@ -2,7 +2,7 @@ from Bio.Blast import NCBIWWW, NCBIXML
 from Bio import Entrez, SeqIO
 import os
 
-Entrez.email = "ceminem.safron@gmail.com"  # Replace with your email
+Entrez.email = "c..."  # Replace with your email
 
 # Create output directory if needed
 os.makedirs("data_raw", exist_ok=True)
@@ -28,6 +28,6 @@ handle = Entrez.efetch(db="protein", id=",".join(accessions), rettype="fasta", r
 records = list(SeqIO.parse(handle, "fasta"))
 
 # 4. Save to file
-output_file = r"C:\Users\cemin\Documents\Molbio\Master\bioinformatics\Mol923\mol923\data_raw\FAP_BLAST.fas"
+output_file = r"C: ...\data_raw\FAP_BLAST.fas"
 SeqIO.write(records, output_file, "fasta")
 print(f"Saved {len(records)} sequences to {output_file}.")
