@@ -2,6 +2,28 @@ from Bio.Blast import NCBIWWW, NCBIXML
 from Bio import Entrez, SeqIO
 import os
 
+import sys
+from modulefinder import ModuleFinder
+import pkg_resources
+
+# Find imports in your script
+finder = ModuleFinder()
+finder.run_script('"C:\Users\cemin\Documents\Molbio\Master\bioinformatics\Mol923\mol923\python\Python script using Biopython.py"')  # Replace with your file
+
+used_packages = set()
+for name, mod in finder.modules.items():
+    if mod and mod.__file__ and 'site-packages' in mod.__file__:
+        used_packages.add(name.split('.')[0])
+
+# Print only used packages with versions
+for pkg_name in sorted(used_packages):
+    try:
+        version = pkg_resources.get_distribution(pkg_name).version
+        print(f"{pkg_name}=={version}")
+    except pkg_resources.DistributionNotFound:
+        print(f"{pkg_name}  # not installed")
+
+
 Entrez.email = "mobofo3315@feralrex.com"  #  A tempt mail was used. Works as well. 
 
 # Create output directory if needed
@@ -28,7 +50,7 @@ handle = Entrez.efetch(db="protein", id=",".join(accessions), rettype="fasta", r
 records = list(SeqIO.parse(handle, "fasta"))
 
 # 4. Save to file
-output_file = r"C: ...\data_raw\FAP_BLAST.fas"
+output_file = r"C:\Users\cemin\Documents\Molbio\Master\bioinformatics\Mol923\mol923\data_raw\FAP_BLAST.fas"
 SeqIO.write(records, output_file, "fasta")
 print(f"Saved {len(records)} sequences to {output_file}.")
 
