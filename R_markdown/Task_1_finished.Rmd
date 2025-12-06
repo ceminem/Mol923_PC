@@ -3,6 +3,7 @@ title: "Task 1: Phylogenetic Analysis of FAP Sequences"
 author: 'Simon Safron [Mn: 11923407], Alexander Veith [Mn: 12122739], Miriam Überbacher [Mn:01627576]'
 date: "`r Sys.Date()`"
 bibliography: packages.bib
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/ieee.csl
 nocite: '@*'
 output:
   pdf_document:
@@ -195,6 +196,13 @@ print(f"Saved {len(records)} sequences to {output_file}.")
 After acquiring the FAP sequences, they were combined with the existing `FAP_genbank.fas` dataset. All duplicate sequences were removed, and the refined dataset was saved as `FAP_all.fas`. The following code was executed to determine the number of duplicate sequences:
 
 ```{r, eval=FALSE}
+
+fap <- read.csv("data_raw/Fatty_acid_photodecarboxylase.csv")
+FAP_genbank <- read.GenBank(fap$accession, quiet = TRUE, type="AA")
+FAP <- read.FASTA("data_raw/FAP_genbank.fas")
+FAP_blast <- read.FASTA("data_raw/FAP_BLAST.fas")
+FAP_all <- c(FAP, FAP_blast)
+
 duplicates <- duplicated(FAP_all)
 sum(duplicates)
 
